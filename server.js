@@ -5,9 +5,17 @@ const app = express();
 
 app.use(fileUpload());
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
+app.get("/uploads", (req, res) => {
+  res.send("Hello World");
+});
 
 app.get("/uploads", (req, res) => {});
+
+app.get("/users", (req, res) => {
+  res.send(importData);
+});
 
 app.post("/uploads", (req, res) => {
   if (req.files === null) {
