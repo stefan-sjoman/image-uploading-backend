@@ -1,20 +1,18 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
-
 const app = express();
-
 app.use(fileUpload());
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/uploads", (req, res) => {
-  res.send("Hello World");
+const users = require("./data.json");
+
+app.get("/", (req, res) => {
+  res.send("/users for userinfo. <br> /uploads for images.");
 });
 
-app.get("/uploads", (req, res) => {});
-
 app.get("/users", (req, res) => {
-  res.send(importData);
+  res.send(users);
 });
 
 app.post("/uploads", (req, res) => {
