@@ -1,7 +1,14 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const app = express();
+const cors = require("cors");
+const path = require("path");
+
 app.use(fileUpload());
+app.use(cors());
+app.use(express.json());
+
+app.use("/photos", express.static(path.join(__dirname, "photos")));
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,20 +22,20 @@ app.get("/users", (req, res) => {
   res.send(users);
 });
 
-app.post("/uploads", (req, res) => {
+app.post("/photos", (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
 
   const image = req.files.image;
 
-  image.mv(`${__dirname}/../frontend/public/uploads/${image.name}`, (err) => {
+  image.mv(`${__dirname}/photos/${image.name}`, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
 
-    res.json({ fileName: image.name, filePath: `/uploads/${image.name}` });
+    res.json({ fileName: image.name, filePath: `/photos/${image.name}` });
   });
 });
 
